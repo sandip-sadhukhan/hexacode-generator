@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Hexa Code Generator</title>
+    <style>
+        *{
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        #maindiv{
+            position: relative;
+            width: 100%;
+            height: 100vh;
+            background: linear-gradient(55deg,rgb(3, 107, 167),rgb(99, 7, 161));
+        }
+        #centerdiv{
+            position: absolute;
+            left:50%;
+            top:30%;
+            transform: translate(-50%,-50%);
+            color:white;
+        }
+        h1{
+            font-family: verdana;
+            margin:50px;
+            font-size:40px;
+            text-align: center;
+            text-shadow: 2px 3px 9px black;
+        }
+        #digitsno{
+            width:100%;
+            height: 30px;
+        }
+        #textarea{
+            background-color:rgba(197, 18, 197, 0.5);
+            padding:10px;
+            margin:20px auto;
+            width:20%;
+            font-size: 20px;
+            font-size: monospace;
+            text-align: center;
+            box-shadow: 2px 3px 13px black;
+            border-radius: 9px;
+        }
+        #hexacode{
+            background-color:rgba(255,255,255,.78);
+            padding:15px;
+            margin:20px auto;
+            text-align: center;
+            color:black;
+            font-size: 25px;
+            font-weight: 900;
+            font-family: monospace;
+            width:100%;
+            box-shadow: 2px 3px 9px grey;
+            border-radius: 9px;
+        }
+        #generate{
+            background-color:tomato;
+            padding: 12px ;
+            border:none;
+            color:white;
+            margin:10px ;
+            margin-left: 35%;   
+            cursor: pointer;
+            border-radius: 20px;
+            width:30%;
+            text-align: center;
+            font-size:20px;
+            box-shadow: 2px 1px 15px black;
+        }
+        button{
+            /* width: 20%; */
+            padding:7px 15px;
+            border:none;
+            background-color:gainsboro;
+            margin-left:40%;
+            transition:0.3s;
+            cursor: pointer;
+        }
+        button:hover{
+            box-shadow: 2px 3px 19px rgba(0,0,0,.6);
+        }
+        #copy{
+                position: absolute;
+                bottom: 0;
+                background-color: rgba(0,0,0,.6);
+                color:white;
+                width:100%;
+                text-align: center;
+                padding:15px;
+                font-size:20px;
+                letter-spacing: 1px;
+                font-family: monospace;
+        }
+        #copy a{
+            text-decoration: none;
+            color:dodgerblue;
+        }
+        @media only screen and (max-width:600px){
+            #centerdiv{
+                width:80%;
+            }
+            h1{
+                font-size:30px;
+                margin-top:70px;
+                margin-bottom:30px;
+            }
+            button{
+                margin:5px 25%;
+                width:50%;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div id="maindiv">
+        <div id="centerdiv">
+            <h1 id="heading">How Many Digits?</h1>
+            <input type="range" id="digitsno" min="1" max="32" value="16" step="1"> 
+            <p id="textarea">16</p>
+            <input type="button" id="generate" onclick="generatehexacode()" value="Generate">
+            <p id="hexacode"></p>
+            <button onclick="copyhexacode()">Click To Copy</button>
+        </div>
+        <p id="copy">Developed By <a href="https://sandippakhanna.github.io/" target="_blank"> Sandip Sadhukhan.</a></p>
+    </div>
+    <script>
+
+        //How Many Digits(label)
+        document.getElementById('digitsno').addEventListener('input',textlabel);
+        function textlabel(){
+            currentdigits = document.getElementById('digitsno').value;
+            document.getElementById('textarea').innerHTML=currentdigits;
+        }
+
+        generatehexacode();
+        function generatehexacode(){
+            let totalno=document.getElementById('digitsno').value;
+            let letters="123456789ABCDEF";
+            let randomhexacodewithhyphens="";
+            let randomletter;
+            let hyphens =1;
+            for(let i=1;i<=totalno;i++){
+                randomletter=Math.floor(Math.random()*14);
+                if(randomletter==10){
+                    randomletter='A';
+                }
+                else if(randomletter==11){
+                    randomletter='B';
+                }
+                else if(randomletter==12){
+                    randomletter='C';
+                }
+                else if(randomletter==13){
+                    randomletter='D';
+                }
+                else if(randomletter==14){
+                    randomletter='E';
+                }
+                else if(randomletter==15){
+                    randomletter='F';
+                }
+                randomhexacodewithhyphens+=randomletter;
+                if(hyphens%4==0 && hyphens!=totalno){
+                    randomhexacodewithhyphens+='-';
+                }
+                hyphens++;
+            }
+            document.getElementById('hexacode').innerHTML=randomhexacodewithhyphens;
+            
+        }
+        function copyhexacode(){
+            let totalno=document.getElementById('digitsno').value;
+            let copyText=document.getElementById('hexacode').innerText;
+            for(let i=0;i<7;i++){
+            copyText=copyText.replace("-","");}
+            navigator.clipboard.writeText(copyText);
+            console.log(copyText);
+            }
+            
+    </script>
+</body>
+</html>
